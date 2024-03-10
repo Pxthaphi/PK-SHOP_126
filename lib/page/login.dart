@@ -97,11 +97,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
-      title: 'PK SHOP',
+      // title: 'PK SHOP',
       theme: LoginTheme(
         primaryColor: const Color.fromARGB(255, 50, 103, 195),
         accentColor: Colors.white,
       ),
+      logo: const AssetImage('assets/images/logo-pkshop.png'),
       onLogin: _authUser,
       onSignup: _signupUser,
       loginAfterSignUp: false,
