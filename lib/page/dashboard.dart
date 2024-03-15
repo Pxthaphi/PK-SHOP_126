@@ -104,6 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('แสดงรายการข้อมูล'),
+        backgroundColor: const Color.fromARGB(255, 171, 206, 255),
         actions: [
           Row(
             children: [
@@ -126,6 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 77, 196, 81),
         onPressed: () async {
           // TODO: Navigate to Add Product Page
           await showDialog(
@@ -142,7 +144,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             // Trigger a rebuild to show the updated list
           });
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -194,7 +199,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   title: Text(item.productName),
                   subtitle: Row(
                     children: [
-                      Text('ราคา: ${item.price} บาท',style: const TextStyle(color: Color.fromARGB(255, 26, 161, 22)),),
+                      Text(
+                        'ราคา: ${item.price} บาท',
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 26, 161, 22)),
+                      ),
                     ],
                   ),
                   trailing: Row(
