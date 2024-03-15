@@ -40,6 +40,7 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   shared_preferences: ^2.2.2
   quickalert: ^1.0.2
+  another_flutter_splash_screen: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lab10_app_126/page/login.dart';
+import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,24 @@ class MyApp extends StatelessWidget {
       title: 'PK SHOP',
       theme: ThemeData(
       ),
-      home: const LoginScreen(),
+      home: FlutterSplashScreen.scale(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.lightBlue,
+              Colors.blue,
+            ],
+          ),
+          childWidget: SizedBox(
+            height: 100,
+            child: Image.asset("assets/images/logo-pkshop.png"),
+          ),
+          duration: const Duration(milliseconds: 2000),
+          animationDuration: const Duration(milliseconds: 1000),
+          onAnimationEnd: () => debugPrint("On Scale End"),
+          nextScreen: const LoginScreen(),
+        ),
     );
   }
 }
