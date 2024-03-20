@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:lab10_app_126/page/dashboard.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -86,7 +85,7 @@ class _EditProductState extends State<EditProduct> {
         String productName = payload['product_name'];
         double price = payload['price'].toDouble();
         // int productType = payload['product_type'];
-        
+
         // Update the UI with the retrieved data
         setState(() {
           _name.text = productName;
@@ -114,11 +113,13 @@ class _EditProductState extends State<EditProduct> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('แก้ไขข้อมูลสินค้า'),
+        backgroundColor: const Color.fromARGB(255, 171, 206, 255),
       ),
       body: Form(
         key: _editFormKey,
         child: mainInput(),
       ),
+      backgroundColor: Colors.white,
     );
   }
 
@@ -164,7 +165,7 @@ class _EditProductState extends State<EditProduct> {
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Please Enter Product Price';
+            return 'กรุณาป้อนราคาสินค้า!';
           }
           return null;
         },
@@ -186,7 +187,7 @@ class _EditProductState extends State<EditProduct> {
             color: Colors.blue,
           ),
           label: Text(
-            'Price',
+            'ราคา',
             style: TextStyle(color: Colors.blue),
           ),
         ),
@@ -202,7 +203,7 @@ class _EditProductState extends State<EditProduct> {
         controller: _name,
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Please Enter Product Name';
+            return 'กรุณาป้อนชื่อสินค้า!!';
           }
           return null;
         },
@@ -224,7 +225,7 @@ class _EditProductState extends State<EditProduct> {
             color: Colors.blue,
           ),
           label: Text(
-            'Product Name',
+            'ชื่อสินค้า',
             style: TextStyle(color: Colors.blue),
           ),
         ),
@@ -264,24 +265,12 @@ class _EditProductState extends State<EditProduct> {
         ),
         onPressed: () async {
           if (_editFormKey.currentState!.validate()) {
-            QuickAlert.show(
-              context: context,
-              type: QuickAlertType.success,
-              text: 'อัพเดทข้อมูลสำเร็จ!',
-              confirmBtnText: 'ตกลง',
-              showConfirmBtn: false,
-              autoCloseDuration: const Duration(seconds: 3),
-            ).then((value) async {
-              // Close the modal
-              Navigator.of(context).pop();
-              // Perform the update after closing the modal
-              await updateProduct();
-            });
+            updateProduct();
           } else {
             QuickAlert.show(
               context: context,
               type: QuickAlertType.error,
-              text: 'ไม่สามารถอัพเดทข้อมูลได้ กรุณาลองใหม่!',
+              text: 'กรุณากรอกข้อมูลให้ถูกต้อง!',
               confirmBtnText: 'ตกลง',
               showConfirmBtn: true,
             );
@@ -331,10 +320,17 @@ class _EditProductState extends State<EditProduct> {
         // Check the status code
         if (response.statusCode == 200) {
           // Navigate to the DashboardScreen
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const DashboardScreen()),
-          );
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            text: 'อัพเดทข้อมูลสำเร็จ!',
+            confirmBtnText: 'ตกลง',
+            showConfirmBtn: false,
+            autoCloseDuration: const Duration(seconds: 3),
+          ).then((value) async {
+            // Close the modal
+            Navigator.of(context).pop();
+          });
         } else if (response.statusCode == 429) {
           // Handle rate-limiting by adding a delay and retrying
           await Future.delayed(const Duration(seconds: 5));
@@ -342,6 +338,13 @@ class _EditProductState extends State<EditProduct> {
         } else {
           // Handle other status codes
           print('Failed to update product: ${response.statusCode}');
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            text: 'ไม่สามารถแก้ไขข้อมูลได้ กรุณาลองใหม่อีกครั้ง!',
+            confirmBtnText: 'ตกลง',
+            showConfirmBtn: false,
+          );
         }
       } catch (error) {
         print('Error updating product: $error');

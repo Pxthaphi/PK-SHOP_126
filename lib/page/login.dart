@@ -99,8 +99,16 @@ class LoginScreen extends StatelessWidget {
     return FlutterLogin(
       // title: 'PK SHOP',
       theme: LoginTheme(
-        primaryColor: const Color.fromARGB(255, 50, 103, 195),
+        primaryColor: const Color.fromARGB(255, 32, 49, 126),
         accentColor: Colors.white,
+        pageColorDark: const Color.fromARGB(255, 255, 255, 255),
+        pageColorLight: const Color.fromARGB(255, 32, 81, 126),
+        authButtonPadding: const EdgeInsets.only(top: 30, bottom: 30),
+        switchAuthTextColor: const Color.fromARGB(255, 32, 49, 126),
+        footerTextStyle: TextStyle(color: Color.fromARGB(255, 32, 49, 126)),
+        // bodyStyle: TextStyle(fontWeight: FontWeight.bold),
+        
+        
       ),
       logo: const AssetImage('assets/images/logo-pkshop.png'),
       onLogin: _authUser,
@@ -129,6 +137,28 @@ class LoginScreen extends StatelessWidget {
           },
         ),
       ],
+      // loginProviders: <LoginProvider>[
+      //     LoginProvider(
+      //       icon: FontAwesomeIcons.google,
+      //       label: 'Google',
+      //       callback: () async {
+      //         debugPrint('start google sign in');
+      //         await Future.delayed(loginTime);
+      //         debugPrint('stop google sign in');              
+      //         return null;
+      //       },
+      //     ),
+      //     LoginProvider(
+      //       icon: FontAwesomeIcons.githubAlt,
+      //       label: 'Github',
+      //       callback: () async {
+      //         debugPrint('start github sign in');
+      //         await Future.delayed(loginTime);
+      //         debugPrint('stop github sign in');              
+      //         return null;
+      //       },
+      //     ),
+      //   ],
 
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(

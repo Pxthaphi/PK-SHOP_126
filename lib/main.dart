@@ -15,7 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'PK SHOP',
-      theme: ThemeData(),
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 203, 236, 255),
+              background: Color.fromARGB(255, 203, 242, 255))),
       home: FlutterSplashScreen.gif(
         gifPath: 'assets/images/logo.gif',
         gifWidth: 720,

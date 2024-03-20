@@ -6,7 +6,6 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class AddProductModal extends StatefulWidget {
   const AddProductModal({super.key});
 
@@ -77,14 +76,41 @@ class _AddProductModalState extends State<AddProductModal> {
 
       if (response.statusCode == 200) {
         print("เพิ่มข้อมูลสินค้าสำเร็จ");
+        // Call the API to add the product
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'เพิ่มข้อมูลสำเร็จ!',
+          confirmBtnText: 'ตกลง',
+          showConfirmBtn: false,
+          autoCloseDuration: const Duration(seconds: 3),
+        ).then((value) async {
+          // Close the modal
+          Navigator.of(context).pop();
+        });
       } else {
         final responseData = json.decode(response.body);
         print(response.statusCode);
         print(responseData['message'] ??
             'ไม่สามารถเพิ่มข้อมูลสินค้าได้ กรุณาลองใหม่');
+
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: 'ไม่สามารถเพิ่มข้อมูลได้ กรุณาลองใหม่อีกครั้ง!',
+          confirmBtnText: 'ตกลง',
+          showConfirmBtn: false,
+        );
       }
     } catch (e) {
       print('Error during add product: $e');
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'เกิดข้อผิดพลาด!',
+        confirmBtnText: 'ตกลง',
+        showConfirmBtn: false,
+      );
     } finally {
       // Cleanup code, if necessary
       if (response != null) {
@@ -106,6 +132,7 @@ class _AddProductModalState extends State<AddProductModal> {
         },
         child: AlertDialog(
           title: const Text('เพิ่มข้อมูลสินค้า'),
+          backgroundColor: Colors.white,
           content: Form(
             key: _formKey,
             child: SizedBox(
@@ -188,24 +215,12 @@ class _AddProductModalState extends State<AddProductModal> {
               ),
               onPressed: () async {
                 if (_formKey.currentState?.validate() ?? false) {
-                  // Call the API to add the product
-                  QuickAlert.show(
-                    context: context,
-                    type: QuickAlertType.success,
-                    text: 'เพิ่มข้อมูลสำเร็จ!',
-                    confirmBtnText: 'ตกลง',
-                    showConfirmBtn: false,
-                    autoCloseDuration: const Duration(seconds: 3),
-                  ).then((value) async {
-                    // Close the modal
-                    Navigator.of(context).pop();
-                    await addProductToApi();
-                  });
-                }else{
+                  addProductToApi();
+                } else {
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.error,
-                    text: 'ไม่สามารถเพิ่มข้อมูลได้ กรุณาลองใหม่!',
+                    text: 'กรอกข้อมูลให้ถูกต้อง!!',
                     confirmBtnText: 'ตกลง',
                     showConfirmBtn: true,
                   );
